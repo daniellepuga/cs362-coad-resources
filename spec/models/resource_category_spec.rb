@@ -9,9 +9,15 @@ RSpec.describe ResourceCategory, type: :model do
     expect(resource_category).to respond_to(:name)
   end
 
-  it 'has an active status' do
+  it 'has a status' do
     expect(resource_category).to respond_to(:active)
   end
+
+  # ask about how to check different statuses
+  
+  # it 'has an inactive status' do
+  #   expect(resource_category).to respond_to(:inactive)
+  # end
 
 end
 
