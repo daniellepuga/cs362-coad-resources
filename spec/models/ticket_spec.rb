@@ -32,4 +32,19 @@ RSpec.describe Ticket, type: :model do
   it 'has a resource category' do
     expect(ticket).to respond_to(:resource_category)
   end
+  
+#   describe 'scopes' do 
+#   describe 'closed' do
+#     before do
+#       open_ticket = Ticket.new(closed: false)
+#       closed_ticket = Ticket.new(closed: true)
+#       open_ticket.save
+#       closed_ticket.save
+#       result = Ticket.closed
+#     end
+
+#     it { expect(result).to include(closed_ticket) }
+#     it { expect(result).to_not include(open_ticket) }
+#   end
+# end
 end
