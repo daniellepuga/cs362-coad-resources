@@ -5,6 +5,38 @@ RSpec.describe Organization, type: :model do
     Organization.new
   end
 
+  it 'has an agreement' do
+    expect(organization).to respond_to(:agreement_one)
+  end
+
+  it 'has an agreement' do
+    expect(organization).to respond_to(:agreement_two)
+  end
+
+  it 'has an agreement' do
+    expect(organization).to respond_to(:agreement_three)
+  end
+
+  it 'has an agreement' do
+    expect(organization).to respond_to(:agreement_four)
+  end
+
+  it 'has an agreement' do
+    expect(organization).to respond_to(:agreement_five)
+  end
+
+  it 'has an agreement' do
+    expect(organization).to respond_to(:agreement_six)
+  end
+
+  it 'has an agreement' do
+    expect(organization).to respond_to(:agreement_seven)
+  end
+
+  it 'has an agreement' do
+    expect(organization).to respond_to(:agreement_eight)
+  end
+
   it 'has an email' do
     expect(organization).to respond_to(:email)
   end
