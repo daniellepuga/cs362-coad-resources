@@ -4,9 +4,7 @@ RSpec.describe Region, type: :model do
 
   let(:valid_region) {Region.new(name: 'Fake region')}
 
-  # it 'exists' do
-  #   Region.new
-  # end
+  it { should have_many(:tickets) }
 
   it 'has a name' do 
     region = Region.new
@@ -20,9 +18,9 @@ RSpec.describe Region, type: :model do
     expect(region).to_not be_valid
   end
 
-  # it "has to be unique" do
-  #   region = Region.new(name: 'Fake region')
-  #   region2 = Region.new(name: 'Fake region')
-  #   expect(region).not_to be_valid
-  # end
+  describe 'validations' do
+    it { should validate_presence_of(:name) }
+    it { should validate_length_of(:name) }
+    it { should validate_uniqueness_of(:name).case_insensitive }
+  end
 end
