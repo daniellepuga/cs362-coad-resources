@@ -5,6 +5,7 @@ RSpec.describe User, type: :model do
     User.new
   end
 
+  
   it 'has a role' do
     expect(user).to respond_to(:role)
   end
