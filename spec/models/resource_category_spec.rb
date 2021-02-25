@@ -21,6 +21,7 @@ RSpec.describe ResourceCategory, type: :model do
     expect(ResourceCategory.new(name: 'Fake').to_s).to eq('Fake')
   end
 
+  # Member functions
   describe 'Region#unspecified' do
     it 'returns a region with the name Unspecified' do
       result = ResourceCategory.unspecified
