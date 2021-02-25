@@ -12,8 +12,54 @@ RSpec.describe ResourceCategory, type: :model do
 
   describe 'validations' do
     it { should validate_presence_of(:name) }
-    it { should validate_length_of(:name).is_at_least(1).is_at_most(255) }
+    it { should validate_length_of(:name).is_at_least(1).is_at_most(255).on(:create) }
     it { should validate_uniqueness_of(:name).ignoring_case_sensitivity }
+  end
+
+  
+  it 'has a string for its name' do
+    expect(ResourceCategory.new(name: 'Fake').to_s).to eq('Fake')
+  end
+
+  describe 'Region#unspecified' do
+    it 'returns a region with the name Unspecified' do
+      result = ResourceCategory.unspecified
+      expect(result.name).to eq('Unspecified')
+    end
+  end
+
+  it 'is inactive when its active attribute is false' do
+    rc = ResourceCategory.new(active: false)
+    expect(rc).to be_inactive
+    rc.active = true
+    expect(rc.inactive?).to be_falsy
+  end
+
+  it 'becomes active when activated' do
+    rc = ResourceCategory.new(active: false)
+    expect(rc).to be_inactive
+    rc.activate
+    expect(rc.active).to be_truthy
+  end
+
+  describe 'active' do
+    it 'includes active resource categories and not inactive ones' do
+      active_rc = ResourceCategory.create(name: 'Active Category', active: true)
+      inactive_rc = ResourceCategory.create(name: 'Inactive Category', active: false)
+      results = ResourceCategory.active
+      expect(results).to include(active_rc)
+      expect(results).to_not include(inactive_rc)
+    end
+  end
+
+  describe 'inactive' do
+    it 'includes inactive resource categories and not active ones' do
+      active_rc = ResourceCategory.create(name: 'Active Category', active: true)
+      inactive_rc = ResourceCategory.create(name: 'Inactive Category', active: false)
+      results = ResourceCategory.inactive
+      expect(results).to include(inactive_rc)
+      expect(results).to_not include(active_rc)
+    end
   end
 
   it 'has a name' do
@@ -36,6 +82,5 @@ RSpec.describe ResourceCategory, type: :model do
   # it 'has an inactive status' do
   #   expect(resource_category).to respond_to(:inactive)
   # end
-
 end
 
