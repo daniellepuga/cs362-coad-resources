@@ -18,12 +18,41 @@ RSpec.describe Organization, type: :model do
     it { should validate_presence_of(:primary_name) }
     it { should validate_presence_of(:secondary_name) }
     it { should validate_presence_of(:secondary_phone) }
-    it { should validate_length_of(:email).is_at_least(1).is_at_most(255) }
+    it { should validate_length_of(:email).is_at_least(1).is_at_most(255).on(:create) }
     # it { should validate_format_of(:email) }
     it { should validate_uniqueness_of(:email).ignoring_case_sensitivity }
-    it { should validate_length_of(:name).is_at_least(1).is_at_most(255) }
+    it { should validate_length_of(:name).is_at_least(1).is_at_most(255).on(:create) }
     it { should validate_uniqueness_of(:name).ignoring_case_sensitivity }
-    it { should validate_length_of(:description).is_at_most(1020) }
+    it { should validate_length_of(:description).is_at_most(1020).on(:create) }
+  end
+
+  
+  # it 'should have a valid email' do
+  #   organization.email = 'fake@faker.com'
+  #   expect(organization.valid?).to be_truthy
+  #   organization.email = 'sup'
+  #   expect(organization).to_not be_valid
+  # end
+
+  describe 'status updates' do
+    it 'has a default status' do
+      organization.set_default_status
+      expect(organization.status).to eq('submitted')
+    end
+
+    it 'can be approved' do
+      organization.approve
+      expect(organization.status).to eq('approved')
+    end
+
+    it 'can be rejected' do
+      organization.reject
+      expect(organization.status).to eq('rejected')
+    end
+  end
+
+  it 'should return a string as a name' do
+    expect(Organization.new(name: 'org').to_s).to eq('org')
   end
 
   it 'has an agreement' do

@@ -21,6 +21,22 @@ RSpec.describe ResourceCategory, type: :model do
     expect(ResourceCategory.new(name: 'Fake').to_s).to eq('Fake')
   end
 
+  it 'has a name' do
+    expect(resource_category).to respond_to(:name)
+  end
+
+  it 'has an active status' do
+    expect(resource_category).to respond_to(:active)
+  end
+
+  it 'has many tickets' do
+    expect(resource_category).to respond_to(:tickets)
+  end
+
+  it 'belongs to an organization' do
+    expect(resource_category).to respond_to(:organizations)
+  end
+
   # Member functions
   describe 'Region#unspecified' do
     it 'returns a region with the name Unspecified' do
@@ -43,6 +59,13 @@ RSpec.describe ResourceCategory, type: :model do
     expect(rc.active).to be_truthy
   end
 
+  it 'becomes inactive when deactivated' do
+    rc = ResourceCategory.new(active: true)
+    expect(rc).to be_active
+    rc.deactivate
+    expect(rc.active).to be_falsy
+  end
+
   describe 'active' do
     it 'includes active resource categories and not inactive ones' do
       active_rc = ResourceCategory.create(name: 'Active Category', active: true)
@@ -62,26 +85,5 @@ RSpec.describe ResourceCategory, type: :model do
       expect(results).to_not include(active_rc)
     end
   end
-
-  it 'has a name' do
-    expect(resource_category).to respond_to(:name)
-  end
-
-  it 'has an active status' do
-    expect(resource_category).to respond_to(:active)
-  end
-
-  it 'has many tickets' do
-    expect(resource_category).to respond_to(:tickets)
-  end
-
-  it 'belongs to an organization' do
-    expect(resource_category).to respond_to(:organizations)
-  end
-  # ask about how to check different statuses
-  
-  # it 'has an inactive status' do
-  #   expect(resource_category).to respond_to(:inactive)
-  # end
 end
 
