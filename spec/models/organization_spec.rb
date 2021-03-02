@@ -23,7 +23,7 @@ RSpec.describe Organization, type: :model do
     it { should validate_uniqueness_of(:name).ignoring_case_sensitivity }
     it { should validate_length_of(:description).is_at_most(1020).on(:create) }
   end
-
+ # test
   describe 'status updates' do
     it 'has a default status' do
       organization.set_default_status
