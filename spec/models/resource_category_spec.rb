@@ -1,9 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe ResourceCategory, type: :model do
-  let (:resource_category) do
-    ResourceCategory.new
-  end
+  let (:resource_category) { build(:resource_category) }
 
   describe 'associations' do
     it { should have_many(:tickets) }
@@ -46,24 +44,23 @@ RSpec.describe ResourceCategory, type: :model do
   end
 
   it 'is inactive when its active attribute is false' do
-    rc = ResourceCategory.new(active: false)
-    expect(rc).to be_inactive
-    rc.active = true
-    expect(rc.inactive?).to be_falsy
+    resource_category.deactivate
+    expect(resource_category).to be_inactive
+    resource_category.active = true
+    expect(resource_category.inactive?).to be_falsy
   end
 
   it 'becomes active when activated' do
-    rc = ResourceCategory.new(active: false)
-    expect(rc).to be_inactive
-    rc.activate
-    expect(rc.active).to be_truthy
+    resource_category.deactivate
+    expect(resource_category).to be_inactive
+    resource_category.activate
+    expect(resource_category.active).to be_truthy
   end
 
   it 'becomes inactive when deactivated' do
-    rc = ResourceCategory.new(active: true)
-    expect(rc).to be_active
-    rc.deactivate
-    expect(rc.active).to be_falsy
+    expect(resource_category).to be_active
+    resource_category.deactivate
+    expect(resource_category.active).to be_falsy
   end
 
   describe 'active' do
