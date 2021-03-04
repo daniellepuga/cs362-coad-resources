@@ -9,10 +9,8 @@ FactoryBot.define do
     trait :open do
       closed { false }
     end
-
     trait :closed do
       closed { true }
     end
-
   end
 end
