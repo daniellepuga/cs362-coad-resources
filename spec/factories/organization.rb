@@ -5,6 +5,10 @@ FactoryBot.define do
     email { 'fake@fake.com' }
     phone { '+1 123 444 567' }
     secondary_name { 'Fake two' }
+    description { 'fake' }
+    liability_insurance { true }
+    title { 'fake title' }
+    transportation { :yes }
     secondary_phone { '+1 123 444 555' }
     trait :submitted do
       status { 'submitted' }
