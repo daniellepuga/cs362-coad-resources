@@ -56,6 +56,10 @@ end
     expect(response).to be_successful
     post :create, params: { region: attributes_for(:region) }
     expect(response).to redirect_to regions_path
-
   end
+
+  it 'has to consider region id'
+  
+    region = create(:region)
+    expect
 end 
