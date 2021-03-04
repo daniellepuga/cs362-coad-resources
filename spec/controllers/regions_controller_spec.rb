@@ -18,16 +18,14 @@ RSpec.describe RegionsController, type: :controller do
       expect(response).to redirect_to(new_user_session_url)
       put :update, params: {id: 'fake'}
       expect(response).to redirect_to(new_user_session_url)
-      
+      post :destroy, params: {id: 'fake'}
+      expect(response).to redirect_to(new_user_session_url)
     end
   end
   
-    context 'organization users' do
-     before do
-      organization_user = build(:user, :organization)
-      allow(request.env['warden']).to receive(:authenticate!).and_return(organization_user)
-      allow(controller).to receive(:current_user).and_return(organization_user)
-     end
+  context 'organization users' do
+    let(:user) { create(:user) }
+    before(:each) {sign_in(user) }
 
   it 'redirects to the dashbord' do
     get :index
@@ -38,6 +36,26 @@ RSpec.describe RegionsController, type: :controller do
     expect(response).to redirect_to(dashboard_url)
     post :create
     expect(response).to redirect_to(dashboard_url) 
+    patch :update, params: {id: 'fake'}
+    expect(response).to redirect_to(dashboard_url) 
+    get :edit, params: {id: 'fake'}
+    expect(response).to redirect_to(dashboard_url) 
+    post :destroy, params: {id: 'fake'}
+    expect(response).to redirect_to(dashboard_url) 
   end
 end
+
+  context 'admin users' do
+    let(:user) { create(:user, :admin) }
+    before(:each) { sign_in(user) }
+
+  it 'is successful' do
+    get :index
+    expect(response).to be_successful
+    get :new
+    expect(response).to be_successful
+    post :create, params: { region: attributes_for(:region) }
+    expect(response).to redirect_to regions_path
+
+  end
 end 
