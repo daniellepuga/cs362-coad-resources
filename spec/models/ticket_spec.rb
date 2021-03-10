@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Ticket, type: :model do
   let(:ticket) { build(:ticket) }
-
+  
   describe 'associations' do
     it { should belong_to(:region) }
     it { should belong_to(:resource_category) }
@@ -17,21 +17,56 @@ RSpec.describe Ticket, type: :model do
     it { should validate_length_of(:name).is_at_least(1).is_at_most(255).on(:create) }
     it { should validate_length_of(:description).is_at_most(1020).on(:create) }
   end
+
+  # TODO: implement factories fully
+  it 'has a name' do
+    expect(ticket).to respond_to(:name)
+  end
+
+  it 'has a description' do
+    expect(ticket).to respond_to(:description)
+  end
+
+  it 'has a phone' do
+    expect(ticket).to respond_to(:phone)
+  end
+
+  it 'has a organization id' do
+    expect(ticket).to respond_to(:organization_id)
+  end
+
+  it 'has a status' do
+    expect(ticket).to respond_to(:open?)
+  end
+
+  it 'has a resource category' do
+    expect(ticket).to respond_to(:resource_category)
+  end
+
+  it 'has a closed time' do
+    expect(ticket).to respond_to(:closed_at)
+  end
+
+  it 'has a closed status' do
+    expect(ticket).to respond_to(:closed)
+  end
   
   # Member functions
-  describe 'scopes' do
-    describe 'it has an open scope' do
-      it 'should return open tickets' do
-        open_ticket = create(:ticket, :open)
-        expect(Ticket.open).to include open_ticket
-      end
+    it 'detects status of ticket' do
+      ticket.closed = false
+      expect(ticket.open?).to be_truthy
+      ticket.closed = true
+      expect(ticket.open?).to be_falsy
     end
 
-    describe 'it returns closed tickets' do
-      it 'should return closed tickets' do
-        closed_ticket = create(:ticket, :closed)
-        expect(Ticket.closed).to include closed_ticket
+    it 'knows the tickets organizations' do
+      expect(ticket.captured?).to be_falsy
+      ticket.organization = Organization.new
+      expect(ticket.captured?).to be_truthy
+    end
+
+    it 'should return a id as a string' do
+      ticket.id = 123
+      expect(ticket.to_s).to eq("Ticket #{ticket.id}")
     end
   end
-end
-end

@@ -4,7 +4,7 @@ FactoryBot.define do
     email { 'fake@fake.com' }
     password { 'password' }
     password_confirmation { 'password' }
-
+    
     trait :organization do
       organization
       role { 'organization' }

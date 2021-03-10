@@ -6,11 +6,21 @@ FactoryBot.define do
     region_id { create(:region).id }
     resource_category_id { create(:resource_category).id }
     # id {}
+    
     trait :open do
       closed { false }
     end
+
     trait :closed do
       closed { true }
+    end
+
+    trait :assigned do
+      organization
+    end
+
+    trait :unassigned do
+      organization { nil }
     end
   end
 end

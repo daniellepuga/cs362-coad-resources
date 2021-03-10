@@ -12,7 +12,6 @@ describe 'validations' do
   it { should respond_to(:role) }
   it { should respond_to(:email) }
   it { should validate_length_of(:email).is_at_least(1).is_at_most(255).on(:create) }
-  # format matcher here
   it { should validate_uniqueness_of(:email).ignoring_case_sensitivity }
   it { should validate_presence_of(:password).on(:create) }
   it { should validate_length_of(:password).is_at_least(7).is_at_most(255).on(:create) }
