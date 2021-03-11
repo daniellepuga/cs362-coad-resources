@@ -3,7 +3,11 @@ require 'rails_helper'
 RSpec.describe TicketsController, type: :controller do
 
   context 'unauthenticated users' do
-    it 'handles different situations for tickets' do
+    before do
+      user = build(:user)
+      allow(controller).to receive(:current_user).and_return(user)
+    end
+    it 'redirects the following requests to sign in' do
       get :new
       expect(response).to be_successful
       post :capture, params: {id: 'fake'}
@@ -12,34 +16,22 @@ RSpec.describe TicketsController, type: :controller do
       expect(response).to redirect_to(dashboard_url)
       delete :destroy, params: {id: 'fake'}
       expect(response).to redirect_to(dashboard_url)
-    end
-  end
-
-    # describe 'creates new' do
-    #   specify { 
-    #     ticket = create(:ticket)
-    #     expect(post(:create, params: { id: ticket.id, ticket: attributes_for(:ticket) })).to be_successful
-    #   }
-    # end
-
-  context 'organization users' do
-    let(:user) { create(:user) }
-    before(:each) { sign_in(user) }
-
-    it 'redirects to the dashboard' do
-      get :new
-      expect(response).to be_successful
+      patch :close, params: {id: 'fake'}
+      expect(response).to redirect_to(dashboard_url)
       get :show, params: {id: 'fake'}
       expect(response).to redirect_to(dashboard_url)
     end
   end
 
-    # describe 'creates a post' do
-    #   specify { 
-    #     ticket = create(:ticket)
-    #     expect(post(:create, params: { id: ticket.id, ticket: attributes_for(:ticket) })).to be_successful
-    #   }
+  context 'organization users' do
+    let(:user) { create(:user) }
+    before(:each) { sign_in(user) }
+
+    # it 'should be successful' do
+    #   get :index
+    #   expect(response).to be_successful
     # end
+  end
 
   class FakeTicket
     def get_ticket
