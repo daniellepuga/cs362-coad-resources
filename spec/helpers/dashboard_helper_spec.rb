@@ -14,14 +14,13 @@ RSpec.describe DashboardHelper, type: :helper do
 
   it 'redirects to application dashboard' do
     user = double()
-    user = User.new
+    user = User.new()
     expect(dashboard_for(user)).to eq('create_application_dashboard')
   end
 
   it 'redirects to admin dashboard' do
     user = double()
-    # user.stub(:admin?).and_return(true)
-    allow(user).to receive(:admin?).and_return(true)
+    user.stub(:admin?).and_return(true)
     expect(dashboard_for(user)).to eq('admin_dashboard')
   end
 end
