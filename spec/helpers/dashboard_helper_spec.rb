@@ -24,4 +24,12 @@ RSpec.describe DashboardHelper, type: :helper do
     allow(user).to receive(:admin?).and_return(true)
     expect(dashboard_for(user)).to eq('admin_dashboard')
   end
+
+  # it 'returns org submitted dashboard' do
+  #   user = double()
+  #   # User.stub(:admin?).and_return(true)
+  #   allow(user).to receive(:admin?).and_return(false)
+  #   allow(user).to receive(:organization).and_return(true)
+  #   expect(dashboard_for(user)).to eq('organization_submitted_dashboard')
+  # end
 end

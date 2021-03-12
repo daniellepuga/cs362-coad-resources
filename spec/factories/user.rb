@@ -1,12 +1,12 @@
 FactoryBot.define do
   factory :user do
     role { 'organization' }
-    email { 'fake@fake.com' }
+    sequence(:email) { |n| "fake#{n}@fake.com"}
     password { 'password' }
     password_confirmation { 'password' }
     
     trait :organization do
-      organization
+      organization { build(:organization, :approved) }
       role { 'organization' }
     end
 
